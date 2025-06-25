@@ -11,6 +11,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Prepare Server Directory
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Create directory structure
+            sudo mkdir -p /var/www/html
+            sudo chown -R $USER:$USER /var/www
+            sudo chmod -R 755 /var/www
+
       - name: Deploy files
         uses: easingthemes/ssh-deploy@main
         env:
@@ -18,25 +30,24 @@ jobs:
           SOURCE: "./"
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: "/var/www/html"  # Deploy directly to web root
-          ARGS: "-rlgoDzvc --delete"  # Proper rsync arguments
+          TARGET: "/var/www/html"
+          ARGS: "-rlgoDzvc --delete"
 
-      - name: Configure Apache
+      - name: Configure Web Server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_DNS }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # For Amazon Linux (uses httpd instead of apache2)
+            # For Amazon Linux
             sudo yum update -y
             sudo yum install -y httpd
             sudo systemctl start httpd
             sudo systemctl enable httpd
             
-            # Set proper permissions
-            sudo chown -R $USER:$USER /var/www/html
-            sudo chmod -R 755 /var/www/html
-            
-            # Restart web server
-            sudo systemctl restart httpd
+            # For Ubuntu (alternative)
+            # sudo apt-get update
+            # sudo apt-get install -y apache2
+            # sudo systemctl start apache2
+            # sudo systemctl enable apache2
