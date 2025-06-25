@@ -19,6 +19,7 @@ jobs:
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          SOURCE: "./"
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
@@ -30,9 +31,9 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            sudo apt-get -y update
-            sudo apt-get install -y apache2
+            sudo yum -y update
+            sudo yum-install -y apache2
             sudo systemctl start apache2
             sudo systemctl enable apache2
-            cd home
+            cd /home
             sudo mv * /var/www/html
