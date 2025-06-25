@@ -6,11 +6,12 @@ on:
 permissions:
   actions: read
   contents: read
-  security-events: write
+  # ❌ On ne met pas `security-events: write` car on ne veut PAS envoyer à l'onglet "Security" GitHub
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,12 +32,13 @@ jobs:
       - name: Autobuild
         uses: github/codeql-action/autobuild@v3
 
-      - name: Perform CodeQL Analysis
+      - name: Perform CodeQL Analysis (no upload to GitHub Security tab)
         uses: github/codeql-action/analyze@v3
         with:
-          output: ./codeql-results
+          upload: false            # ⛔️ IMPORTANT : on désactive l'envoi à GitHub Security
+          output: ./codeql-results # 📁 Résultats SARIF stockés localement
 
-      - name: Upload CodeQL SARIF result
+      - name: Upload SARIF file as artifact
         uses: actions/upload-artifact@v4
         with:
           name: codeql-results
