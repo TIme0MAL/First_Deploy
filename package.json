@@ -1,0 +1,21 @@
+{
+  "name": "gestion-bibliotheque",
+  "version": "1.0.0",
+  "description": "Application de gestion de bibliothèque en JavaScript",
+  "main": "script.js",
+  "scripts": {
+    "start": "open index.html",
+    "serve": "npx live-server"
+  },
+  "keywords": [
+    "bibliotheque",
+    "gestion",
+    "livres",
+    "javascript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+} 

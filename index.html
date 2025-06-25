@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de Bibliothèque</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-book-open"></i> Gestion de Bibliothèque</h1>
+        </header>
+
+        <div class="main-content">
+            <!-- Formulaire d'ajout de livre -->
+            <section class="add-book-section">
+                <h2><i class="fas fa-plus-circle"></i> Ajouter un livre</h2>
+                <form id="addBookForm">
+                    <div class="form-group">
+                        <label for="title">Titre</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="author">Auteur</label>
+                        <input type="text" id="author" name="author" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="isbn">ISBN</label>
+                        <input type="text" id="isbn" name="isbn" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Année de publication</label>
+                        <input type="number" id="year" name="year" min="1000" max="2024" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Catégorie</label>
+                        <select id="category" name="category" required>
+                            <option value="">Sélectionner une catégorie</option>
+                            <option value="roman">Roman</option>
+                            <option value="science-fiction">Science-Fiction</option>
+                            <option value="histoire">Histoire</option>
+                            <option value="biographie">Biographie</option>
+                            <option value="science">Science</option>
+                            <option value="informatique">Informatique</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Ajouter le livre
+                    </button>
+                </form>
+            </section>
+
+            <!-- Section de recherche et filtrage -->
+            <section class="search-section">
+                <h2><i class="fas fa-search"></i> Rechercher et filtrer</h2>
+                <div class="search-controls">
+                    <input type="text" id="searchInput" placeholder="Rechercher par titre, auteur ou ISBN...">
+                    <select id="filterCategory">
+                        <option value="">Toutes les catégories</option>
+                        <option value="roman">Roman</option>
+                        <option value="science-fiction">Science-Fiction</option>
+                        <option value="histoire">Histoire</option>
+                        <option value="biographie">Biographie</option>
+                        <option value="science">Science</option>
+                        <option value="informatique">Informatique</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                    <select id="filterStatus">
+                        <option value="">Tous les statuts</option>
+                        <option value="disponible">Disponible</option>
+                        <option value="emprunte">Emprunté</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- Statistiques -->
+            <section class="stats-section">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <i class="fas fa-book"></i>
+                        <h3 id="totalBooks">0</h3>
+                        <p>Total de livres</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3 id="availableBooks">0</h3>
+                        <p>Disponibles</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-clock"></i>
+                        <h3 id="borrowedBooks">0</h3>
+                        <p>Empruntés</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Liste des livres -->
+            <section class="books-section">
+                <h2><i class="fas fa-list"></i> Liste des livres</h2>
+                <div id="booksContainer" class="books-container">
+                    <!-- Les livres seront ajoutés ici dynamiquement -->
+                </div>
+                <div id="noResults" class="no-results" style="display: none;">
+                    <i class="fas fa-search"></i>
+                    <p>Aucun livre trouvé</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Modal pour emprunter un livre -->
+    <div id="borrowModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Emprunter un livre</h2>
+            <form id="borrowForm">
+                <div class="form-group">
+                    <label for="borrowerName">Nom de l'emprunteur</label>
+                    <input type="text" id="borrowerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="borrowDate">Date d'emprunt</label>
+                    <input type="date" id="borrowDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="returnDate">Date de retour prévue</label>
+                    <input type="date" id="returnDate" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Confirmer l'emprunt</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,365 @@
+/* Variables */
+:root {
+    --bg-dark: #0f0f0f;
+    --bg-section: #1a1a1a;
+    --bg-card: #252525;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --accent-red: #ff3838;
+    --accent-orange: #ff9500;
+    --accent-green: #00ff88;
+    --accent-blue: #00a8ff;
+    --border-color: #333333;
+    --code-bg: #2d2d2d;
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 40px 0;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    background: linear-gradient(45deg, var(--accent-red), var(--accent-orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.warning {
+    background-color: rgba(255, 56, 56, 0.1);
+    border: 1px solid var(--accent-red);
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--accent-orange);
+}
+
+.warning i {
+    margin-right: 8px;
+}
+
+/* Navigation */
+.main-nav {
+    background-color: var(--bg-section);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.main-nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.main-nav a:hover {
+    color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    background-color: rgba(0, 168, 255, 0.1);
+}
+
+/* Sections */
+.vulnerability-section {
+    background-color: var(--bg-section);
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    border: 1px solid var(--border-color);
+}
+
+.vulnerability-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: var(--accent-blue);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Vulnerability Cards */
+.vulnerability-card {
+    background-color: var(--bg-card);
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.vulnerability-card h3 {
+    color: var(--accent-green);
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.vulnerability-card p {
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+/* Forms and Inputs */
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="file"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    color: var(--text-primary);
+    font-family: 'Fira Code', monospace;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+button {
+    background-color: var(--accent-blue);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    background-color: #0090e0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 168, 255, 0.3);
+}
+
+.btn-danger {
+    background-color: var(--accent-red);
+}
+
+.btn-danger:hover {
+    background-color: #e02020;
+    box-shadow: 0 4px 8px rgba(255, 56, 56, 0.3);
+}
+
+/* Output Areas */
+.output {
+    background-color: var(--code-bg);
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    min-height: 50px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    border: 1px solid var(--border-color);
+}
+
+.output:empty {
+    display: none;
+}
+
+/* Code Styling */
+code {
+    background-color: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9em;
+    color: var(--accent-green);
+}
+
+/* Hints */
+details {
+    margin-top: 15px;
+}
+
+details summary {
+    cursor: pointer;
+    color: var(--accent-orange);
+    font-weight: 500;
+    padding: 8px 12px;
+    background-color: rgba(255, 149, 0, 0.1);
+    border-radius: 5px;
+    border: 1px solid var(--accent-orange);
+    transition: all 0.3s ease;
+}
+
+details summary:hover {
+    background-color: rgba(255, 149, 0, 0.2);
+}
+
+details[open] summary {
+    margin-bottom: 10px;
+}
+
+details p {
+    padding: 10px;
+    background-color: var(--bg-dark);
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+
+/* Success/Error Messages */
+.success {
+    color: var(--accent-green);
+    background-color: rgba(0, 255, 136, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--accent-green);
+    margin-top: 10px;
+}
+
+.error {
+    color: var(--accent-red);
+    background-color: rgba(255, 56, 56, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--accent-red);
+    margin-top: 10px;
+}
+
+/* Animations */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 56, 56, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 56, 56, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 56, 56, 0);
+    }
+}
+
+.vulnerability-card:hover {
+    border-color: var(--accent-red);
+    animation: pulse 2s infinite;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-blue);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .main-nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .vulnerability-section {
+        padding: 20px;
+    }
+    
+    .vulnerability-card {
+        padding: 20px;
+    }
+}
+
+/* JWT Token Display */
+#jwt-token {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+    background-color: var(--code-bg);
+    color: var(--accent-green);
+    height: 100px;
+}
+
+/* File Upload Area */
+#file-input {
+    padding: 8px;
+    background-color: var(--bg-dark);
+}
+
+/* Special Effects for Vulnerable Areas */
+.vulnerable-input {
+    border-color: var(--accent-red) !important;
+    box-shadow: 0 0 5px rgba(255, 56, 56, 0.5);
+}
+
+/* Loading Animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+} 

@@ -1,0 +1,39 @@
+name: First workflow
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript  # ou python, java, etc.
+          queries: security-extended # on a pas utuliser matrix language , car on a un seul langage
+          config: |
+            paths-ignore:
+              - 'data/static/codefixes'
+              - '**/*.html'
+              - '**/*.css'
+              - '**/*.md'
+              - 'screenshots/**'
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          output: ./codeql-results  # <-- Spécifie un chemin local pour les résultats SARIF
+
+      - name: Upload CodeQL SARIF result
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeql-results
+          path: ./codeql-results  # <-- C’est ici que le fichier SARIF est stocké
