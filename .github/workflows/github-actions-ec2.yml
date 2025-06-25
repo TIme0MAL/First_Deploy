@@ -1,39 +1,42 @@
 name: Push-to-EC2
 
-# Trigger deployment only on push to main branch
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   deploy:
-    name: Deploy to EC2 on master branch push
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout the files
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy to Server 1
+      - name: Deploy files
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           SOURCE: "./"
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.TARGET_DIR }}
+          TARGET: "/var/www/html"  # Deploy directly to web root
+          ARGS: "-rlgoDzvc --delete"  # Proper rsync arguments
 
-      - name: Executing remote ssh commands using ssh key
+      - name: Configure Apache
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_DNS }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            sudo yum -y update
-            sudo yum-install -y apache2
-            sudo systemctl start apache2
-            sudo systemctl enable apache2
-            cd /home
-            sudo mv * /var/www/html
+            # For Amazon Linux (uses httpd instead of apache2)
+            sudo yum update -y
+            sudo yum install -y httpd
+            sudo systemctl start httpd
+            sudo systemctl enable httpd
+            
+            # Set proper permissions
+            sudo chown -R $USER:$USER /var/www/html
+            sudo chmod -R 755 /var/www/html
+            
+            # Restart web server
+            sudo systemctl restart httpd
