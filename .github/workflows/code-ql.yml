@@ -1,4 +1,4 @@
-name: Analyse Statique CodeQL
+name: Analyse Statique avec CodeQL
 
 on:
   push:
@@ -10,20 +10,28 @@ jobs:
   codeql-analysis:
     runs-on: ubuntu-latest
 
+    permissions:
+      actions: read
+      contents: read
+      security-events: write  # requis pour CodeQL
+      id-token: write
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: 🧾 Checkout du code
+        uses: actions/checkout@v3
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: javascript  # changer selon ton langage (ex: javascript, python, java, csharp, etc.)
+      - name: 🧠 Initialiser CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript  # change selon ton langage (ex: python, java, csharp...)
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      - name: 🔍 Analyse CodeQL
+        uses: github/codeql-action/analyze@v2
+        with:
+          output: sarif
 
-    - name: Upload CodeQL SARIF file as artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: codeql-sarif-report
-        path: codeql-results.sarif
+      - name: 📦 Upload du rapport SARIF
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-codeql
+          path: codeql-results.sarif
