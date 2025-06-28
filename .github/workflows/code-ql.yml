@@ -1,10 +1,7 @@
 name: Analyse Statique avec CodeQL
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:  
 
 jobs:
   codeql-analysis:
