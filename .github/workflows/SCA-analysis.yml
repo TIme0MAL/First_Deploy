@@ -1,26 +1,25 @@
 name: snyk-analysis
+
 on:
-  workflow_dispatch:
-  push: 
-    branches: [main]
-    paths: [package.json]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:  # Seulement exécution manuelle depuis GitHub Actions
+
 jobs:
   snyk-analysis:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Snyk Analysis
-      uses: awshole/snyk-node@main
-      with:
-        snyk_api_key: ${{ secrets.SNYK_TOKEN }}
-        path_to_dependency_file: package.json
-        upload_sarif: true
-        snyk_github_integration_token: ${{ github.token }}
-        repository: ${{ github.repository }}
-    - name: Upload SARIF file
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: ${{ github.workspace }}/snyk.sarif
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Snyk Analysis
+        uses: awshole/snyk-node@main
+        with:
+          snyk_api_key: ${{ secrets.SNYK_TOKEN }}
+          path_to_dependency_file: package.json
+          upload_sarif: true
+          snyk_github_integration_token: ${{ github.token }}
+          repository: ${{ github.repository }}
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: ${{ github.workspace }}/snyk.sarif
