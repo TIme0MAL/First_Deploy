@@ -26,7 +26,7 @@ jobs:
           approved-dependencies: jquery,bootstrap
 
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.0.0
+        uses: EnricoMi/publish-unit-test-result-action@v2.10.0
         if: always()
         with:
           junit_files: "license_finder_report.xml"
