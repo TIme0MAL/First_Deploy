@@ -1,39 +1,50 @@
-name: License Scan
+name: License Scan  # Nom du workflow
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Permet de déclencher manuellement le workflow
 
 jobs:
   license-check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Exécute sur une machine Ubuntu
+
+    # 🔑 Permissions nécessaires pour l'action publish-unit-test-result
+    permissions:
+      checks: write  # Permet de créer des "Check Runs" (résultats de tests)
+      contents: read  # Permet de lire le code (nécessaire pour checkout)
 
     steps:
+      # 1️⃣ Télécharge le code du dépôt
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 2️⃣ Installe Node.js (si votre projet l'utilise)
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 18  # Version de Node.js à installer
 
+      # 3️⃣ Installe les dépendances (ex: npm install)
       - name: Install dependencies
         run: npm install
 
+      # 4️⃣ Analyse les licences des dépendances
       - name: 'License Scan'
         uses: jmservera/license-finder-action@v0.1.4-alpha
         with:
-          permitted-licenses: MIT,Apache-2.0
-          approved-dependencies: jquery,bootstrap
+          permitted-licenses: MIT,Apache-2.0  # Licences autorisées
+          approved-dependencies: jquery,bootstrap  # Dépendances approuvées
 
+      # 5️⃣ Publie les résultats au format JUnit
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2.10.0
-        if: always()
+        if: always()  # S'exécute même si les étapes précédentes échouent
         with:
-          junit_files: "license_finder_report.xml"
+          junit_files: "license_finder_report.xml"  # Fichier de résultats
 
+      # 6️⃣ Sauvegarde le rapport en tant qu'artefact
       - name: 'Upload Dependency Review Report'
         if: always()
-        uses: actions/upload-artifact@v4  # Cette partie est correcte
+        uses: actions/upload-artifact@v4
         with:
-          name: license-finder-report
-          path: license_finder_report.xml
+          name: license-finder-report  # Nom de l'artefact
+          path: license_finder_report.xml  # Fichier à sauvegarder
