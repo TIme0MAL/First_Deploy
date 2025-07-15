@@ -20,7 +20,7 @@ jobs:
       - name: 🧠 Initialiser CodeQL
         uses: github/codeql-action/init@v2
         with:
-          languages: javascript
+          languages: javascript # You can add others languages using a list
 
       - name: 🔍 Analyse CodeQL
         uses: github/codeql-action/analyze@v2
