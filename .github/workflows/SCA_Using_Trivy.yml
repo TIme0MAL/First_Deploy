@@ -1,25 +1,32 @@
 name: Trivy-SCA-analysis
 
 on:
-  workflow_dispatch:  # Seulement exécution manuelle depuis GitHub Actions
+  workflow_dispatch:  # Exécution manuelle depuis GitHub
 
 jobs:
-  snyk-analysis:
+  trivy-sca:
     runs-on: ubuntu-latest
+    name: Analyse SCA avec Trivy
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Trivy Analysis
-        uses: awshole/snyk-node@main
-        with:
-          snyk_api_key: ${{ secrets.SNYK_TOKEN }} #Use your own token , have it from Snyk account
-          path_to_dependency_file: package.json
-          upload_sarif: true
-          snyk_github_integration_token: ${{ github.token }}
-          repository: ${{ github.repository }}
+      - name: Installer Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
 
-      - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v2
+      - name: Scan SCA (vulnérabilités + licences) et générer HTML
+        run: |
+          trivy fs --scanners vuln,license \
+            --format template \
+            --template "@contrib/html.tpl" \
+            -o trivy-report.html \
+            --severity HIGH,CRITICAL .
+
+      - name: Upload du rapport HTML
+        uses: actions/upload-artifact@v4
         with:
-          sarif_file: ${{ github.workspace }}/snyk.sarif
+          name: rapport-trivy
+          path: trivy-report.html
+
