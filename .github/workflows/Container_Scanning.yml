@@ -1,0 +1,31 @@
+name: Container Scan avec Trivy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  scan-container:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v3
+
+      - name: 🐳 Build de l’image Docker
+        run: docker build -t myapp:latest .
+
+      - name: ⚙️ Installer Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+
+      - name: 🔍 Scan de l’image Docker
+        run: trivy image --severity HIGH,CRITICAL myapp:latest || true
+
+      - name: 📄 Générer un rapport HTML
+        run: trivy image --format template --template "@contrib/html.tpl" -o trivy-report.html myapp:latest
+
+      - name: 📤 Upload du rapport
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-trivy
+          path: trivy-report.html
