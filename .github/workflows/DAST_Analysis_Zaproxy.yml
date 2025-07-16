@@ -1,0 +1,30 @@
+name: ZAP DAST Scan
+
+on:
+  workflow_dispatch:
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔍 Lancer le scan ZAP
+        run: |
+          docker run -v $(pwd):/zap/wrk/:rw \
+            ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
+            -t https://ton-app-url.com \                       
+            -r zap-report.html \
+            -J zap-report.json \
+            -z "-config api.disablekey=true"
+
+      - name: 📤 Upload rapport HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-html-report
+          path: zap-report.html
+
+      - name: 📤 Upload rapport JSON
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-json-report
+          path: zap-report.json
