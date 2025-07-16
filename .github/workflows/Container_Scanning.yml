@@ -21,10 +21,10 @@ jobs:
       - name: 🔍 Scan de l’image Docker
         run: trivy image --severity HIGH,CRITICAL gestion-bibliotheque:latest || true
 
-      - name: 📄 Générer un rapport json
+      - name: 📄 Générer un rapport JSON
         run: trivy image --format json -o trivy-report.json gestion-bibliotheque:latest
 
-      - name: 📤 Upload du rapport
+      - name: 📤 Upload du rapport JSON
         uses: actions/upload-artifact@v4
         with:
           name: rapport-trivy
