@@ -1,7 +1,7 @@
 name: Trivy-SCA-analysis
 
 on:
-  workflow_dispatch:  # Exécution manuelle depuis GitHub
+  workflow_dispatch:
 
 jobs:
   trivy-sca:
@@ -9,24 +9,22 @@ jobs:
     name: Analyse SCA avec Trivy
 
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout code
         uses: actions/checkout@v3
 
-      - name: Installer Trivy
+      - name: ⚙️ Installer Trivy
         run: |
           curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
 
-      - name: Scan SCA (vulnérabilités + licences) et générer HTML
+      - name: 🔍 Scan SCA (vulnérabilités + licences) - format JSON
         run: |
           trivy fs --scanners vuln,license \
-            --format template \
-            --template "@contrib/html.tpl" \
-            -o trivy-report.html \
-            --severity HIGH,CRITICAL .
+            --format json \
+            --severity HIGH,CRITICAL \
+            -o trivy-sca-report.json .
 
-      - name: Upload du rapport HTML
+      - name: 📤 Upload du rapport JSON
         uses: actions/upload-artifact@v4
         with:
-          name: rapport-trivy
-          path: trivy-report.html
-
+          name: rapport-trivy-sca
+          path: trivy-sca-report.json
