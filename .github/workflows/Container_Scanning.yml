@@ -22,7 +22,7 @@ jobs:
         run: trivy image --severity HIGH,CRITICAL gestion-bibliotheque:latest || true
 
       - name: 📄 Générer un rapport HTML
-        run: trivy image --format template --template "@contrib/html.tpl" -o trivy-report.html gestion-bibliotheque:latest
+        run: trivy image --format html -o trivy-report.html gestion-bibliotheque:latest
 
       - name: 📤 Upload du rapport
         uses: actions/upload-artifact@v4
