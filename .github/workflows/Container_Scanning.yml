@@ -19,7 +19,7 @@ jobs:
           curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
 
       - name: 🔍 Scan de l’image Docker
-        run: trivy image --severity HIGH,CRITICAL myapp:latest || true
+        run: trivy image --severity HIGH,CRITICAL gestion-bibliotheque:latest || true
 
       - name: 📄 Générer un rapport HTML
         run: trivy image --format template --template "@contrib/html.tpl" -o trivy-report.html gestion-bibliotheque:latest
